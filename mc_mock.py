@@ -508,7 +508,7 @@ class Hand(Entity):
         self.position = Vec2(0.4, -0.6)
 
 
-# 加载数据
+# 加载数据，默认从数据文件中加载，如果没有数据文件，则创建新地图
 load_map()
 
 
