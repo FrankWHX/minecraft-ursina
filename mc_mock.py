@@ -21,6 +21,7 @@ brick_texture = load_texture("Assets/Textures/Brick_Block.png")
 stone_texture = load_texture("Assets/Textures/Stone_Block.png")
 tree_texture = load_texture("Assets/Textures/Tree_Block.png")
 leaf_texture = load_texture("Assets/Textures/Leaf_Block.png")
+water_texture = load_texture("Assets/Textures/Water_Block.png")
 sky_texture = load_texture("Assets/Textures/Skybox.png")
 arm_texture = load_texture("Assets/Textures/Arm_Texture.png")
 
@@ -29,20 +30,6 @@ arm_texture = load_texture("Assets/Textures/Arm_Texture.png")
 punch_sound = Audio("Assets/SFX/Punch_Sound.wav", loop=False, autoplay=False)
 error_sound = Audio("Assets/SFX/Snap_Sound.wav", loop=False, autoplay=False)
 
-
-# 方块皮肤的枚举
-class BlockPick(IntEnum):
-    GRASS_TEXTURE = 1
-    DIRT_TEXTURE = 2
-    WOOD_TEXTURE = 3
-    BRICK_TEXTURE = 4
-    STONE_TEXTURE = 5
-    TREE_TEXTURE = 6
-    LEAF_TEXTURE = 7
-
-
-# 设置默认方块的图片序号
-block_pick = BlockPick.GRASS_TEXTURE
 
 # 地图大小
 map_size = 50
@@ -56,6 +43,22 @@ map_dict = {}
 
 # 是否创建树，默认为不创建
 is_create_tree = False
+
+
+# 方块皮肤的枚举
+class BlockPick(IntEnum):
+    GRASS_TEXTURE = 1
+    DIRT_TEXTURE = 2
+    WOOD_TEXTURE = 3
+    BRICK_TEXTURE = 4
+    STONE_TEXTURE = 5
+    TREE_TEXTURE = 6
+    LEAF_TEXTURE = 7
+    WATER_TEXTURE = 8
+
+
+# 设置默认方块的图片序号
+block_pick = BlockPick.GRASS_TEXTURE
 
 
 def save_map():
@@ -343,6 +346,8 @@ def input(key):
     elif key == "7":
         block_pick = BlockPick(7)
     elif key == "8":
+        block_pick = BlockPick(8)
+    elif key == "9":
         is_create_tree = True
     elif key == "escape":
         # 按下esc键时，保存地图数据并推出
@@ -388,6 +393,8 @@ def get_texture(block_pick):
         current_texture = tree_texture
     elif block_pick == BlockPick.LEAF_TEXTURE:
         current_texture = leaf_texture
+    elif block_pick == BlockPick.WATER_TEXTURE:
+        current_texture = water_texture
     else:
         current_texture = grass_texture
     return current_texture

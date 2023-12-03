@@ -1,7 +1,10 @@
-
 # Git
 \#*\#
 .\#*
 
 # VS Code
 **/.vscode/*
+
+data/*
+
+bak.py
