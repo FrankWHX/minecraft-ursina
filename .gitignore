@@ -5,6 +5,6 @@
 # VS Code
 **/.vscode/*
 
-data/*
+/data
 
 bak.py
