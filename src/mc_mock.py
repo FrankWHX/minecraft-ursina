@@ -1,8 +1,11 @@
 from ursina import *
 from ursina.prefabs.first_person_controller import FirstPersonController
 from perlin_noise import PerlinNoise
-from enum import IntEnum
+from word.sky import Sky
+from player.hand import Hand
 import random
+
+from blocks.block_pick import BlockPick
 
 # 创建一个全屏窗口
 app = Ursina(borderless=True, fullscreen=True, show_ursina_splash=True)
@@ -14,21 +17,21 @@ scene.fog_color = color.white
 scene.fog_density = 0.02
 
 # 载入图片资源  1=绿地 2=泥土 3=木板 4=砖块 5=石头
-grass_texture = load_texture("Assets/Textures/Grass_Block.png")
-dirt_texture = load_texture("Assets/Textures/Dirt_Block.png")
-wood_texture = load_texture("Assets/Textures/Wood_Block.png")
-brick_texture = load_texture("Assets/Textures/Brick_Block.png")
-stone_texture = load_texture("Assets/Textures/Stone_Block.png")
-tree_texture = load_texture("Assets/Textures/Tree_Block.png")
-leaf_texture = load_texture("Assets/Textures/Leaf_Block.png")
-water_texture = load_texture("Assets/Textures/Water_Block.png")
-sky_texture = load_texture("Assets/Textures/Skybox.png")
-arm_texture = load_texture("Assets/Textures/Arm_Texture.png")
+grass_texture = load_texture("/resources/Textures/Grass_Block.png")
+dirt_texture = load_texture("/resources/Textures/Dirt_Block.png")
+wood_texture = load_texture("/resources/Textures/Wood_Block.png")
+brick_texture = load_texture("/resources/Textures/Brick_Block.png")
+stone_texture = load_texture("/resources/Textures/Stone_Block.png")
+tree_texture = load_texture("/resources/Textures/Tree_Block.png")
+leaf_texture = load_texture("/resources/Textures/Leaf_Block.png")
+water_texture = load_texture("/resources/Textures/Water_Block.png")
+arm_texture = load_texture("/resources/Textures/Arm_Texture.png")
 
+sky_texture = load_texture("/resources/Textures/Skybox.png")
 
 # 载入声音
-punch_sound = Audio("Assets/SFX/Punch_Sound.wav", loop=False, autoplay=False)
-error_sound = Audio("Assets/SFX/Snap_Sound.wav", loop=False, autoplay=False)
+punch_sound = Audio("/resources/SFX/Punch_Sound.wav", loop=False, autoplay=False)
+error_sound = Audio("/resources/SFX/Snap_Sound.wav", loop=False, autoplay=False)
 
 
 # 地图大小
@@ -43,18 +46,6 @@ map_dict = {}
 
 # 是否创建树，默认为不创建
 is_create_tree = False
-
-
-# 方块皮肤的枚举
-class BlockPick(IntEnum):
-    GRASS_TEXTURE = 1
-    DIRT_TEXTURE = 2
-    WOOD_TEXTURE = 3
-    BRICK_TEXTURE = 4
-    STONE_TEXTURE = 5
-    TREE_TEXTURE = 6
-    LEAF_TEXTURE = 7
-    WATER_TEXTURE = 8
 
 
 # 设置默认方块的图片序号
@@ -411,7 +402,7 @@ class Block(Button):
         super().__init__(
             parent=scene,
             position=position,
-            model="Assets/Models/Block",
+            model="/resources/Models/Block.obj",
             origin_y=0.5,
             texture=get_texture(block_pick),
             color=color.color(0, 0, random.uniform(0.9, 1)),
@@ -484,37 +475,6 @@ class Block(Button):
                     destroy(self)
 
 
-# 天空
-class Sky(Entity):
-    def __init__(self):
-        super().__init__(
-            parent=scene,
-            model="sphere",
-            texture=sky_texture,
-            scale=300,
-            double_sided=True,
-        )
-
-
-# 手势
-class Hand(Entity):
-    def __init__(self):
-        super().__init__(
-            parent=camera.ui,
-            model="Assets/Models/Arm",
-            texture=arm_texture,
-            scale=0.2,
-            rotation=Vec3(150, -10, 0),
-            position=Vec2(0.4, -0.6),
-        )
-
-    def active(self):
-        self.position = Vec2(0.3, -0.5)
-
-    def passive(self):
-        self.position = Vec2(0.4, -0.6)
-
-
 # 加载数据，默认从数据文件中加载，如果没有数据文件，则创建新地图
 load_map()
 
@@ -526,10 +486,10 @@ player = FirstPersonController(speed=5, jump_height=3)
 player.set_position(map_revive_poit)
 
 # 实例化天空
-sky = Sky()
+sky = Sky(texture=sky_texture)
 
 # 实例化手
-hand = Hand()
+hand = Hand(texture=arm_texture)
 
 # 运行
 app.run()

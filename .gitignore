@@ -7,4 +7,4 @@
 
 /data
 
-bak.py
+**/__pycache__
